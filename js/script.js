@@ -13,7 +13,12 @@ const activitiesInput = document.querySelectorAll('input[type="checkbox"]');
 const pricePTag = activitiesFieldset.querySelector('p');
 let totalPrice = 0;
 
-if(colorChildren[0].value === 'tomato') {
+const paymentMethod = document.querySelector('#payment');
+const creditCard = document.querySelector('#credit-card');
+const paypal = document.querySelector('#paypal');
+const bitcoin = document.querySelector('#bitcoin');
+
+if (colorChildren[0].value === 'tomato') {
     console.log(colorChildren[0].value);
 }
 
@@ -32,39 +37,62 @@ jobRoles.addEventListener('click', (e) => {
 });
 
 // Working area for T-shirt features 
-// Add event listener for design menu and deselect all unavailable options, set attribute to selected
-selectDesign.addEventListener('click', (e) => {
+// Add event listener for design menu and deselect all unavailable options, hide color option by default until design is selected
+selectColor.hidden = true;
+selectDesign.addEventListener('change', (e) => {
     const click = e.target;
     if (click.value === 'js puns') {
         for (let i = 0; i < colorChildren.length; i++){
             if (i === 4|| i === 5|| i === 6) {
-                colorChildren[i].hidden = true;
+                selectColor.hidden = false;
+                colorChildren[i].setAttribute('disabled', '');
             } else {
-                colorChildren[i].hidden = false;
+                selectColor.hidden = false;
+                colorChildren[i].removeAttribute('disabled');
             }
         }
-    }
-    if (click.value === 'heart js') {
+    } else if (click.value === 'heart js') {
         for (let i = 0; i < colorChildren.length; i++){
             if (i === 1|| i === 2|| i === 3) {
-                colorChildren[i].hidden = true;
+                colorChildren[i].setAttribute('disabled', '');
             } else {
-                colorChildren[i].hidden = false;
+                colorChildren[i].removeAttribute('disabled');
             }
         }
     }
 });
 
-//Working area for register activities section
+// Working area for registering for activities section
 activitiesFieldset.addEventListener('change', (e) => {
     const clicked = e.target;
     const cost = +clicked.getAttribute('data-cost');
     if (clicked.checked) {
         totalPrice += cost;
-        console.log(totalPrice);
     } else if (!clicked.checked) {
         totalPrice -= cost;
-        console.log(totalPrice);
     }
     pricePTag.innerHTML = `Total: $${totalPrice}`;
-})
+});
+
+// Working area for payment
+paypal.hidden = true;
+bitcoin.hidden = true;
+paymentMethod.addEventListener('change', (e) => {
+    const clicked = e.target;
+    if (clicked.value === 'credit-card') {
+        creditCard.hidden = false;
+        bitcoin.hidden = true;
+        paypal.hidden = true;
+
+    } else if (clicked.value === 'paypal') {
+        paypal.hidden = false;
+        bitcoin.hidden = true;
+        creditCard.hidden = true;
+
+    } else if (clicked.value === 'bitcoin') {
+        bitcoin.hidden = false;
+        paypal.hidden = true;
+        creditCard.hidden = true;
+    }
+
+});
