@@ -25,9 +25,6 @@ const creditCardNumInput = document.querySelector('#cc-num');
 const zipCodeInput = document.querySelector('#zip');
 const CVVInput = document.querySelector('#cvv');
 
-if (colorChildren[0].value === 'tomato') {
-    console.log(colorChildren[0].value);
-}
 
 //Set focus to the name field when page is loaded
 nameInput.focus();
