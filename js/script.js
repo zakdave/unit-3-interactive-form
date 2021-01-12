@@ -29,7 +29,7 @@ const CVVInput = document.querySelector('#cvv');
 
 //Set focus to the name field when page is loaded and prime payment method
 nameInput.focus();
-
+document.querySelector("[value='credit-card']").setAttribute('selected', '');
 
 // Working area for job role feature. Hide 'other' field when not selected and show when selected only
 otherJobRole.hidden = true; // set to hide by default
