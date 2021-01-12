@@ -27,8 +27,9 @@ const zipCodeInput = document.querySelector('#zip');
 const CVVInput = document.querySelector('#cvv');
 
 
-//Set focus to the name field when page is loaded
+//Set focus to the name field when page is loaded and prime payment method
 nameInput.focus();
+
 
 // Working area for job role feature. Hide 'other' field when not selected and show when selected only
 otherJobRole.hidden = true; // set to hide by default
@@ -69,7 +70,7 @@ selectDesign.addEventListener('change', (e) => {
     }
 });
 
-// Working area for registering for activities section
+// Registering for activities checkboxes
 activitiesFieldset.addEventListener('change', (e) => {
     const clicked = e.target;
     const cost = +clicked.getAttribute('data-cost');
@@ -84,7 +85,7 @@ activitiesFieldset.addEventListener('change', (e) => {
     pricePTag.innerHTML = `Total: $${totalPrice}`;
 });
 
-// Working area for payment
+// Selecting payments, will only display one option at a time, defaults to credit card
 paypal.hidden = true;
 bitcoin.hidden = true;
 paymentMethod.addEventListener('change', (e) => {
@@ -107,7 +108,7 @@ paymentMethod.addEventListener('change', (e) => {
 
 });
 
-// Working area for validation, remove console log statements when complete
+// Validations pass and fail functions. Responsible for hints, and accessability features. Pass and fail validations will be called within validators
 const validationPass = (element) => {
     element.parentElement.classList.add('valid');
     element.parentElement.classList.remove('not-valid');
@@ -120,11 +121,10 @@ const validationFail = (element) => {
     element.parentElement.lastElementChild.style.display = 'block';
   };
 
+// Validator functions, determine whether user input is sufficient
 const nameValidator = () => {
     const name = nameInput.value;
-    console.log("Name value is: ", `"${name}"`);
     const nameIsValid = name.length > 0;
-    console.log(`Name validation test on "${name}" evaluates to ${nameIsValid}`);
     if (nameIsValid) {
         validationPass(nameInput);
     } else {
@@ -135,9 +135,7 @@ const nameValidator = () => {
 
 const emailValidator = () => {
     const email = emailInput.value;
-    console.log("Email value is: ", `"${email}"`);
     const emailIsValid = /^[^@]+@[^@.]+\.[a-z]+$/i.test(email);
-    console.log(`Email validation test on "${email}" evaluates to ${emailIsValid}`);
     if (emailIsValid) {
         validationPass(emailInput);
     } else {
@@ -167,7 +165,6 @@ for (let i = 0; i < activitiesInput.length; i++) {
 const cardNumValidator = () => {
     const creditCardNum = creditCardNumInput.value;   
     creditCardIsValid = /^\d{13,16}$/.test(creditCardNum);
-    console.log("cc value is: ", `"${creditCardNum}" and evaluates to ${creditCardIsValid}`);
     if (creditCardIsValid) {
         validationPass(creditCardNumInput);
     } else {
@@ -179,7 +176,6 @@ const cardNumValidator = () => {
 const zipCodeValidator = () => {
     const zipCode = zipCodeInput.value;
     zipCodeIsValid = /^\d{5}$/.test(zipCode);
-    console.log(`zip is ${zipCode} and zipCodeIsValid returns ${zipCodeIsValid}`);
     if (zipCodeIsValid) {
         validationPass(zipCodeInput);
     } else {
@@ -191,7 +187,6 @@ const zipCodeValidator = () => {
 const CVVValidator = () => {
     const cvv = CVVInput.value;
     cvvIsValid = /^\d{3}$/.test(cvv);
-    console.log(`cvv is ${cvv} and cvvIsValid returns ${cvvIsValid}`);
     if (cvvIsValid) {
         validationPass(CVVInput);
     } else {
@@ -200,7 +195,7 @@ const CVVValidator = () => {
     return cvvIsValid;
 };
 
-// Event handler for submit button
+// Event handler for submit button. Displays all errors at once and conditionals check for correct validator use
 form.addEventListener('submit', e => {
 
     if (!nameValidator()) {
@@ -212,14 +207,13 @@ form.addEventListener('submit', e => {
     if (!activitiesValidator()) {
         e.preventDefault();
     };
-    if (!cardNumValidator()) {
+    if ((paymentMethod.value === 'credit-card' || paymentMethod.value === 'select method') && !cardNumValidator()) {
         e.preventDefault();
     };
-    if (!zipCodeValidator()) {
+    if ((paymentMethod.value === 'credit-card' || paymentMethod.value === 'select method') && !zipCodeValidator()) {
         e.preventDefault();
     };
-    if (!CVVValidator()) {
+    if ((paymentMethod.value === 'credit-card' || paymentMethod.value === 'select method') && !CVVValidator()) {
         e.preventDefault();
     };
-    console.log('Submit works.');
 });
