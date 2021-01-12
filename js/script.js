@@ -9,6 +9,7 @@ const selectColor = document.querySelector('#color');
 const colorChildren = selectColor.children;
 
 const activitiesFieldset = document.querySelector('#activities');
+const activitiesDiv = document.querySelector('#activities-box');
 const activitiesInput = document.querySelectorAll('input[type="checkbox"]');
 const pricePTag = activitiesFieldset.querySelector('p');
 let totalPrice = 0;
@@ -33,7 +34,7 @@ nameInput.focus();
 otherJobRole.hidden = true; // set to hide by default
 jobRoles.addEventListener('click', (e) => {
     const click = e.target;
-    if (click.value === 'other' ) {
+    if (click.value === 'other') {
         otherJobRole.hidden = false;
     } else {
         otherJobRole.hidden = true;
@@ -58,8 +59,10 @@ selectDesign.addEventListener('change', (e) => {
     } else if (click.value === 'heart js') {
         for (let i = 0; i < colorChildren.length; i++){
             if (i === 1|| i === 2|| i === 3) {
+                selectColor.hidden = false;
                 colorChildren[i].setAttribute('disabled', '');
             } else {
+                selectColor.hidden = false;
                 colorChildren[i].removeAttribute('disabled');
             }
         }
@@ -106,15 +109,15 @@ paymentMethod.addEventListener('change', (e) => {
 
 // Working area for validation, remove console log statements when complete
 const validationPass = (element) => {
-    element.parentElement.className = 'valid';
+    element.parentElement.classList.add('valid');
     element.parentElement.classList.remove('not-valid');
-    element.parentElement.lastElementChild.hidden = true;
+    element.parentElement.lastElementChild.style.display = 'none';
 };
 
 const validationFail = (element) => {
-    element.parentElement.className = 'not-valid';
+    element.parentElement.classList.add('not-valid');
     element.parentElement.classList.remove('valid');
-    element.parentElement.lastElementChild.hidden = false;
+    element.parentElement.lastElementChild.style.display = 'block';
   };
 
 const nameValidator = () => {
@@ -145,11 +148,20 @@ const emailValidator = () => {
 
 const activitiesValidator = () => {
     if (numActivities > 0) {
-        validationPass(document.querySelector('#activities-box'));
+        validationPass(activitiesDiv);
     } else {
-        validationFail(document.querySelector('#activities-box'));
+        validationFail(activitiesDiv);
     }
     return numActivities > 0;
+};
+
+for (let i = 0; i < activitiesInput.length; i++) {
+    activitiesInput[i].addEventListener('focus', () => {
+        activitiesInput[i].parentElement.classList.add('focus');
+    });
+    activitiesInput[i].addEventListener('blur', () => {
+        activitiesInput[i].parentElement.classList.remove('focus');
+    });
 };
 
 const cardNumValidator = () => {
