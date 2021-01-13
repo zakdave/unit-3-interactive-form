@@ -51,20 +51,20 @@ selectDesign.addEventListener('change', (e) => {
         for (let i = 0; i < colorChildren.length; i++){
             if (i === 4|| i === 5|| i === 6) {
                 selectColor.hidden = false;
-                colorChildren[i].setAttribute('disabled', '');
+                colorChildren[i].hidden = true;
             } else {
                 selectColor.hidden = false;
-                colorChildren[i].removeAttribute('disabled');
+                colorChildren[i].hidden = false;
             }
         }
     } else if (click.value === 'heart js') {
         for (let i = 0; i < colorChildren.length; i++){
             if (i === 1|| i === 2|| i === 3) {
                 selectColor.hidden = false;
-                colorChildren[i].setAttribute('disabled', '');
+                colorChildren[i].hidden = true;
             } else {
                 selectColor.hidden = false;
-                colorChildren[i].removeAttribute('disabled');
+                colorChildren[i].hidden = false;
             }
         }
     }
