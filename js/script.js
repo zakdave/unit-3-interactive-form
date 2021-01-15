@@ -47,6 +47,7 @@ jobRoles.addEventListener('click', (e) => {
 selectColor.hidden = true;
 selectDesign.addEventListener('change', (e) => {
     const click = e.target;
+    selectColor.value = colorChildren[0].value; // reset color value each time select design event listener fires
     if (click.value === 'js puns') {
         for (let i = 0; i < colorChildren.length; i++){
             if (i === 4|| i === 5|| i === 6) {
